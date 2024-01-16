@@ -22,6 +22,7 @@ class MyTaskDataTable extends DataTable
      * @param QueryBuilder $query Results from query() method.
      */
 
+
     protected $user;
 
     public function __construct(Authenticatable $user)
@@ -59,7 +60,7 @@ class MyTaskDataTable extends DataTable
                 return $result;
             })
 
-            ->editColumn('project_name', function ($data) {
+            ->editColumn('project_id', function ($data) {
                 return $data->project->project_name;
             })
 
@@ -80,19 +81,19 @@ class MyTaskDataTable extends DataTable
                 }
             })
 
-            ->filterColumn('user_name', function ($query, $keyword) {
+            ->filterColumn('user_id', function ($query, $keyword) {
                 $query->whereHas('user', function ($query) use ($keyword) {
                     $query->where('name', 'like', "%{$keyword}%");
                 });
             })
 
-            ->filterColumn('project_name', function ($query, $keyword) {
+            ->filterColumn('project_id', function ($query, $keyword) {
                 $query->whereHas('project', function ($query) use ($keyword) {
                     $query->where('project_name', 'like', "%{$keyword}%");
                 });
             })
 
-            ->editColumn('user_name', function ($data) {
+            ->editColumn('user_id', function ($data) {
                 return $data->user->name;
             })
             ->rawColumns(['status', 'action', 'roles'])
@@ -145,13 +146,13 @@ class MyTaskDataTable extends DataTable
         return [
             Column::make('no')->data('DT_RowIndex')->searchable(false)->orderable(false),
             Column::make('id')->hidden(),
-            Column::make('project_id')->searchable(true),
-            Column::make('task_name')->searchable(true),
-            Column::make('user_name')->searchable(true),
-            Column::make('startdate'),
-            Column::make('enddate'),
-            Column::make('roles'),
-            Column::make('status'),
+            Column::make('project_id')->title('Project Name')->searchable(true),
+            Column::make('task_name')->title('Task Name')->searchable(true),
+            Column::make('user_id')->title('User Name')->searchable(true),
+            Column::make('startdate')->title('Start Date'),
+            Column::make('enddate')->title('End Date'),
+            Column::make('roles')->title('Assign Roles'),
+            Column::make('status')->title('Status'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

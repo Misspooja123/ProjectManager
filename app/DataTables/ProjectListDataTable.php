@@ -31,7 +31,7 @@ class ProjectListDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
 
-            ->editColumn('project_name', function ($data) {
+            ->editColumn('project_id', function ($data) {
                 return $data->project->project_name;
             })
 
@@ -45,17 +45,17 @@ class ProjectListDataTable extends DataTable
                 }
             })
 
-            ->editColumn('user_name', function ($data) {
+            ->editColumn('user_id', function ($data) {
                 return $data->user->name;
             })
 
-            ->filterColumn('user_name', function ($query, $keyword) {
+            ->filterColumn('user_id', function ($query, $keyword) {
                 $query->whereHas('user', function ($query) use ($keyword) {
                     $query->where('name', 'like', "%{$keyword}%");
                 });
             })
 
-            ->filterColumn('project_name', function ($query, $keyword) {
+            ->filterColumn('project_id', function ($query, $keyword) {
                 $query->whereHas('project', function ($query) use ($keyword) {
                     $query->where('project_name', 'like', "%{$keyword}%");
                 });
@@ -111,9 +111,9 @@ class ProjectListDataTable extends DataTable
         return [
             Column::make('no')->data('DT_RowIndex')->searchable(false)->orderable(false),
             Column::make('id')->hidden(),
-            Column::make('project_name')->searchable(true),
-            Column::make('user_name')->searchable(true),
-            Column::make('roles')->searchable(true),
+            Column::make('project_id')->title('Project Name')->searchable(true),
+            Column::make('user_id')->title('User Name')->searchable(true),
+            Column::make('roles')->title('Assign Roles')->searchable(true),
         ];
     }
 
