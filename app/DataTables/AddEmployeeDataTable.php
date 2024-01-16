@@ -31,7 +31,7 @@ class AddEmployeeDataTable extends DataTable
 
                 return $result;
             })
-            
+
             ->rawColumns(['action'])
             ->addIndexColumn();
     }
